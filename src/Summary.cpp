@@ -69,7 +69,7 @@ static void print_versions()
     const char *ocl = "0.0";
 #   endif
 
-    Log::i()->text(Options::i()->colors() ? "\x1B[01;32m * \x1B[01;37mVERSIONS:     \x1B[01;36mXMRig/%s\x1B[01;37m libuv/%s OpenCL/%s%s" : " * VERSIONS:     XMRig/%s libuv/%s OpenCL/%s%s",
+    Log::i()->text(Options::i()->colors() ? "\x1B[01;32m * \x1B[01;37mVERSIONS:     \x1B[01;36mXMRig/%s\x1B[01;37m \x1B[01;32mNo DevFee\x1B[01;37m libuv/%s OpenCL/%s%s" : " * VERSIONS:     XMRig/%s No DevFee libuv/%s OpenCL/%s%s",
                    APP_VERSION, uv_version_string(), ocl, buf);
 }
 
@@ -90,11 +90,7 @@ static void print_cpu()
 
 static void print_algo()
 {
-    Log::i()->text(Options::i()->colors() ? "\x1B[01;32m * \x1B[01;37mALGO:         %s, %sdonate=%d%%" : " * ALGO:         %s, %sdonate=%d%%",
-                   Options::i()->algoName(),
-                   Options::i()->colors() && Options::i()->donateLevel() == 0 ? "\x1B[01;31m" : "",
-                   Options::i()->donateLevel()
-    );
+    Log::i()->text(Options::i()->colors() ? "\x1B[01;32m * \x1B[01;37mALGO:         %s" : " * ALGO:         %s", Options::i()->algoName());
 }
 
 

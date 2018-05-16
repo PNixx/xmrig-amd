@@ -1,3 +1,6 @@
 /build
 /CMakeLists.txt.user
 /build2
+/.idea
+/dist-win64
+/APP_SDK

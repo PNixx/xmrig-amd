@@ -40,7 +40,6 @@
 
 
 #include "amd/OclGPU.h"
-#include "donate.h"
 #include "log/Log.h"
 #include "net/Url.h"
 #include "Options.h"
@@ -87,7 +86,6 @@ Options:\n\
       --print-platforms     print available OpenCL platforms and exit\n\
       --no-color            disable colored output\n\
       --variant             algorithm PoW variant\n\
-      --donate-level=N      donate level, default 5%% (5 minutes in 100 minutes)\n\
       --user-agent          set custom user-agent string for pool\n\
   -B, --background          run the miner in the background\n\
   -c, --config=FILE         load a JSON-format configuration file\n\
@@ -117,7 +115,6 @@ static struct option const options[] = {
     { "api-worker-id",    1, nullptr, 4002 },
     { "background",       0, nullptr, 'B'  },
     { "config",           1, nullptr, 'c'  },
-    { "donate-level",     1, nullptr, 1003 },
     { "help",             0, nullptr, 'h'  },
     { "keepalive",        0, nullptr ,'k'  },
     { "log-file",         1, nullptr, 'l'  },
@@ -147,7 +144,6 @@ static struct option const config_options[] = {
     { "algo",             1, nullptr, 'a'  },
     { "background",       0, nullptr, 'B'  },
     { "colors",           0, nullptr, 2000 },
-    { "donate-level",     1, nullptr, 1003 },
     { "log-file",         1, nullptr, 'l'  },
     { "opencl-platform",  1, nullptr, 1400 },
     { "print-time",       1, nullptr, 1007 },
@@ -242,7 +238,6 @@ bool Options::save()
     doc.AddMember("algo",         rapidjson::StringRef(algoName()), allocator);
     doc.AddMember("background",   m_background, allocator);
     doc.AddMember("colors",       m_colors, allocator);
-    doc.AddMember("donate-level", m_donateLevel, allocator);
     doc.AddMember("log-file",     m_logFile ? rapidjson::Value(rapidjson::StringRef(logFile())).Move() : rapidjson::Value(rapidjson::kNullType).Move(), allocator);
     doc.AddMember("print-time",   m_printTime, allocator);
     doc.AddMember("retries",      m_retries, allocator);
@@ -331,7 +326,6 @@ Options::Options(int argc, char **argv) :
     m_logFile(nullptr),
     m_userAgent(nullptr),
     m_apiPort(0),
-    m_donateLevel(kDefaultDonateLevel),
     m_platformIndex(0),
     m_printTime(60),
     m_retries(5),
@@ -482,7 +476,6 @@ bool Options::parseArg(int key, const char *arg)
     case 'R':  /* --retry-pause */
     case 't':  /* --threads */
     case 'v':  /* --av */
-    case 1003: /* --donate-level */
     case 1007: /* --print-time */
     case 4000: /* --api-port */
     case 1400: /* --opencl-platform */
@@ -557,12 +550,6 @@ bool Options::parseArg(int key, uint64_t arg)
         }
 
         //m_threads = arg;
-        break;
-
-    case 1003: /* --donate-level */
-        if (arg >= kMinimumDonateLevel && arg <= 99) {
-            m_donateLevel = static_cast<int>(arg);
-        }
         break;
 
     case 1007: /* --print-time */

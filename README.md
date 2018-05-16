@@ -1,4 +1,4 @@
-# XMRig AMD
+# XMRig AMD NO DevFee
 
 :warning: **You must update miners to version 2.5 before April 6 due [Monero PoW change](https://getmonero.org/2018/02/11/PoW-change-and-key-reuse.html).**
 
@@ -24,7 +24,7 @@ GPU mining part based on [Wolf9466](https://github.com/OhGodAPet) and [psychocry
 * [Features](#features)
 * [Download](#download)
 * [Usage](#usage)
-* [Build](https://github.com/xmrig/xmrig-amd/wiki/Build)
+* [Build](https://github.com/xmrig/xmrig/wiki/Build) or [Cross-compile Build](#cross-compile-build)
 * [Donations](#donations)
 * [Release checksums](#release-checksums)
 * [Contacts](#contacts)
@@ -41,7 +41,7 @@ GPU mining part based on [Wolf9466](https://github.com/OhGodAPet) and [psychocry
 ## Download
 * Binary releases: https://github.com/xmrig/xmrig-amd/releases
 * Git tree: https://github.com/xmrig/xmrig-amd.git
-  * Clone with `git clone https://github.com/xmrig/xmrig-amd.git`  :hammer: [Build instructions](https://github.com/xmrig/xmrig-amd/wiki/Build).
+  * Clone with `git clone https://github.com/xmrig/xmrig-amd.git`  :hammer: [Build instructions](https://github.com/xmrig/xmrig/wiki/Build).
 
 ## Usage
 Use [config.xmrig.com](https://config.xmrig.com/amd) to generate, edit or share configurations.
@@ -61,7 +61,6 @@ Use [config.xmrig.com](https://config.xmrig.com/amd) to generate, edit or share 
       --opencl-affinity=N   affine GPU threads to a CPU
       --opencl-platform=N   OpenCL platform index
       --no-color            disable colored output
-      --donate-level=N      donate level, default 5% (5 minutes in 100 minutes)
       --user-agent          set custom user-agent string for pool
   -B, --background          run the miner in the background
   -c, --config=FILE         load a JSON-format configuration file
@@ -75,17 +74,30 @@ Use [config.xmrig.com](https://config.xmrig.com/amd) to generate, edit or share 
   -V, --version             output version information and exit
 ```
 
-## Donations
-Default donation 5% (5 minutes in 100 minutes) can be reduced to 1% via command line option `--donate-level`.
+## Cross-compile Build
 
-* XMR: `48edfHu7V9Z84YzzMa6fUueoELZ9ZRXq9VetWzYGzKt52XU5xvqgzYnDK9URnRoJMk1j8nLwEVsaSWJ4fhdUyZijBGUicoD`
-* BTC: `1P7ujsXeX7GxQwHNnJsRMgAdNkFZmNVqJT`
+Required [MXE](https://github.com/mxe/mxe) with `x86_64-w64-mingw32.static.posix` target.
+
+In MXE directory:
+```
+make MXE_PLUGIN_DIRS=plugins/gcc7 MXE_TARGETS='x86_64-w64-mingw32.static.posix' gcc cmake libuv
+```
+
+In XMRig directory:
+```
+git submodule init && git submodule update
+./windows-build.sh
+```
+
+## Donations
+
+* XMR: `42gP71qLB5M43RuDnrQ3vSJFFxis9Kw9VMURhpx9NLQRRwNvaZRjm2TFojAMC8Fk1BQhZNKyWhoyJSn5Ak9kppgZPjE17Zh`
+* ETH: `0x6F094365A70fe7836A633d2eE80A1FA9758234d5`
 
 ## Release checksums
 ### SHA-256
 ```
-aefa5b0844d5b1b7ac5b467763faea1c331f4ea03189892bcf4aba275a74e028 xmrig-amd-2.6.1-win32.zip/xmrig-amd.exe
-8d1867696ffd1d5eb628e88cc1293d39484f5536cb84e8441053e13f992e8515 xmrig-amd-2.6.1-win64.zip/xmrig-amd.exe
+407a0cd5942870b0c83e5fb139633a72ba3daf086693a2369ca8bbf03bc9611e xmrig-amd-2.6.1-win64-no-devfee.zip/xmrig-amd.exe
 ```
 
 ## Contacts
